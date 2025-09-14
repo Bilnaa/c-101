@@ -2,6 +2,16 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#ifdef _WIN32
+#include <direct.h>
+#define CREATE_DIRECTORY(name) _mkdir(name)
+#define REMOVE_DIRECTORY(name) _rmdir(name)
+#else
+#include <sys/stat.h>
+#include <unistd.h> // Pour rmdir sur les systèmes Unix-like
+#define CREATE_DIRECTORY(name) mkdir(name, 0777)
+#define REMOVE_DIRECTORY(name) rmdir(name)
+#endif
 
 int main() {
     printf("=== GESTION DES FICHIERS ET RÉPERTOIRES EN C ===\n\n");
@@ -29,11 +39,22 @@ int main() {
         perror("Erreur lors de la suppression de newname.txt");
     }
     
-    // 2. Créer et supprimer un répertoire (non standard C, dépend du système)
-    // Pour Linux/macOS, vous pouvez utiliser system("mkdir mon_repertoire");
-    // Pour Windows, system("mkdir mon_repertoire");
-    printf("\n2. Création et suppression de répertoire (exemple conceptuel):\n");
-    printf("   (Fonctions spécifiques au système d'exploitation nécessaires)");
+    // 2. Créer et supprimer un répertoire en utilisant des macros
+    printf("\n2. Création et suppression de répertoire:\n");
+    
+    const char* dir_name = "mon_nouveau_repertoire";
+    
+    if (CREATE_DIRECTORY(dir_name) == 0) {
+        printf("   Répertoire '%s' créé avec succès.\n", dir_name);
+    } else {
+        perror("Erreur lors de la création du répertoire");
+    }
+    
+    if (REMOVE_DIRECTORY(dir_name) == 0) {
+        printf("   Répertoire '%s' supprimé avec succès.\n", dir_name);
+    } else {
+        perror("Erreur lors de la suppression du répertoire");
+    }
 
     return 0;
 }
