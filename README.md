@@ -23,6 +23,7 @@ Ce repository contient une collection complète d'exemples et d'exercices pour a
 
 ### 04-pointers/ - Pointeurs
 - **basic-pointers** : Concepts de base des pointeurs
+- **deliberate-fail** : Pointeur pendant (dangling pointer) et comportement indéfini
 - **pointer-arithmetic/** : Arithmétique des pointeurs
 - **dynamic-memory/** : Allocation dynamique de mémoire
 - **pointer-functions/** : Pointeurs et fonctions
