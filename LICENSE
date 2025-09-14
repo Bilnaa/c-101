@@ -28,7 +28,6 @@ SOFTWARE.
 - **Source**: https://github.com/tsoding/nob.h
 - **License**: Public Domain
 - **Usage**: Header-only build system library
-- **Integration**: Git submodule in `vendor/nob.h/`
 
 The nob.h library is released into the public domain, which means it can be used
 freely without any restrictions, attribution requirements, or license obligations.
