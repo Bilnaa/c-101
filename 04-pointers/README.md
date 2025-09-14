@@ -32,6 +32,12 @@ Pointeurs et fonctions.
 - Pointeurs de fonctions
 - Callbacks
 
+### deliberate-fail/
+Pointeur pendant (dangling pointer) et comportement indéfini.
+- Explication d'un pointeur pendant
+- Conséquences du comportement indéfini
+- Stratégies de prévention
+
 ## 🎯 Objectifs d'Apprentissage
 
 - Comprendre le concept d'adresse mémoire
