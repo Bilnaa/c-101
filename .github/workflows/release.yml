@@ -1,0 +1,52 @@
+name: Release C Scripts
+
+on:
+  push:
+    tags:
+      - 'v*.*.*' # Trigger on version tags like v1.0.0
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up build environment
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y gcc
+
+    - name: Build all C scripts
+      run: |
+        chmod +x bootstrap.sh
+        ./bootstrap.sh
+        ./build all
+
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        draft: false
+        prerelease: false
+
+    - name: Upload all executables as Release Assets
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        for file in ./build/*;
+        do
+          if [ -f "$file" ]; then
+            asset_name=$(basename "$file")
+            echo "Uploading $asset_name..."
+            curl -X POST -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Content-Type: application/octet-stream" \
+            --data-binary "@$file" \
+            "${{ steps.create_release.outputs.upload_url }}?name=$asset_name"
+          fi
+        done
